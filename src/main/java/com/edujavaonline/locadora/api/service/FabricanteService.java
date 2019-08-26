@@ -20,18 +20,18 @@ public class FabricanteService {
 	private FabricanteRepository fabricanteRepository;
 	
 	public List<FabricanteDTO> findAll() {		
-		List<Fabricante> fabricantes = fabricanteRepository.findAll();			
-		if(fabricantes.isEmpty() ) {
+		List<Fabricante> entities = fabricanteRepository.findAll();			
+		if(entities.isEmpty() ) {
 			throw new ObjectNotFoundException("Não existem Fabricantes cadastrados!");
 		} else {
-			 return fabricantes.stream().map(f -> new FabricanteDTO(f)).collect(Collectors.toList());
+			 return entities.stream().map(e -> new FabricanteDTO(e)).collect(Collectors.toList());
 		}		
 	}
 	
 	public FabricanteDTO findById(Long id) {
-		Optional<Fabricante> fabricanteRetornado = fabricanteRepository.findById(id);
-		Fabricante fabricante = fabricanteRetornado.orElseThrow(() -> new ObjectNotFoundException("Fabricante não encontrado!"));
-		return new FabricanteDTO(fabricante);		 		
+		Optional<Fabricante> one = fabricanteRepository.findById(id);
+		Fabricante entity = one.orElseThrow(() -> new ObjectNotFoundException("Fabricante não encontrado!"));
+		return new FabricanteDTO(entity);		 		
 	}	
 	
 	public void delete(Long id) {
@@ -39,19 +39,19 @@ public class FabricanteService {
 		fabricanteRepository.deleteById(id);
 	}
 	
-	public FabricanteDTO save(FabricanteDTO fabricanteDTO) {
-		Fabricante fabricante = fromDTO(fabricanteDTO);
-		return new FabricanteDTO(fabricanteRepository.save(fabricante));		
+	public FabricanteDTO save(FabricanteDTO dto) {
+		Fabricante entity = fromDTO(dto);
+		return new FabricanteDTO(fabricanteRepository.save(entity));		
 	}
 	
 	public FabricanteDTO update(Long id, FabricanteDTO fabricanteDTO) {
 		FabricanteDTO dto = findById(id);	
-		Fabricante fabricante = fromDTO(dto);
-		BeanUtils.copyProperties(fabricanteDTO, fabricante, "id");				
-		return new FabricanteDTO(fabricanteRepository.save(fabricante));		
+		Fabricante entity = fromDTO(dto);
+		BeanUtils.copyProperties(fabricanteDTO, entity, "id");				
+		return new FabricanteDTO(fabricanteRepository.save(entity));		
 	}
 	
-	private Fabricante fromDTO(FabricanteDTO fabricanteDTO) {
-		return new Fabricante(fabricanteDTO.getId(), fabricanteDTO.getDescricao());
+	private Fabricante fromDTO(FabricanteDTO dto) {
+		return new Fabricante(dto.getId(), dto.getDescricao());
 	}
 }

@@ -12,47 +12,45 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.edujavaonline.locadora.api.model.dto.FabricanteDTO;
-import com.edujavaonline.locadora.api.service.FabricanteService;
+import com.edujavaonline.locadora.api.model.dto.ModeloCarroDTO;
+import com.edujavaonline.locadora.api.service.ModeloCarroService;
 
 @RestController
-@RequestMapping(value = "/fabricantes")
-public class FabricanteResource {
-	
+@RequestMapping(value = "/modelosCarros")
+public class ModeloCarroResource {
+
 	@Autowired
-	private FabricanteService fabricanteService;
+	private ModeloCarroService modeloCarroService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<FabricanteDTO>> findAll() {
-		List<FabricanteDTO> dtos = fabricanteService.findAll();		 
+	public ResponseEntity<List<ModeloCarroDTO>> findAll() {
+		List<ModeloCarroDTO> dtos = modeloCarroService.findAll();
 		return ResponseEntity.ok().body(dtos);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<FabricanteDTO> findById(@PathVariable Long id) {
-		FabricanteDTO dto = fabricanteService.findById(id);		
+	public ResponseEntity<ModeloCarroDTO> findById(@PathVariable Long id) {
+		ModeloCarroDTO dto = modeloCarroService.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		fabricanteService.delete(id);
+		modeloCarroService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> save(@RequestBody FabricanteDTO fabricanteDTO) {
-		FabricanteDTO dto = fabricanteService.save(fabricanteDTO);
+	public ResponseEntity<Void> save(@RequestBody ModeloCarroDTO modeloCarroDTO) {
+		ModeloCarroDTO dto = modeloCarroService.save(modeloCarroDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-			.buildAndExpand(dto.getId()).toUri();
+				.buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody FabricanteDTO dto, @PathVariable Long id) {		
-		fabricanteService.update(id, dto);			
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ModeloCarroDTO dto) {
+		modeloCarroService.update(id, dto);
 		return ResponseEntity.ok().build();
 	}
-
-
 }
