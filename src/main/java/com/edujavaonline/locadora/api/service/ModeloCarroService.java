@@ -45,12 +45,12 @@ public class ModeloCarroService {
 		return new ModeloCarroDTO(modeloCarroRepository.save(entity));
 	}	
 	
-	public ModeloCarroDTO update(Long id, ModeloCarroDTO modeloCarroDTO) {
+	public void update(Long id, ModeloCarroDTO modeloCarroDTO) {
 		ModeloCarroDTO dto = findById(id);
 		ModeloCarro entity = fromDTO(dto);
 		BeanUtils.copyProperties(modeloCarroDTO, entity, "id");
 		BeanUtils.copyProperties(modeloCarroDTO.getFabricante(), entity.getFabricante());		
-		return new ModeloCarroDTO(modeloCarroRepository.save(entity));
+		modeloCarroRepository.save(entity);
 	}	
 	
 	private ModeloCarro fromDTO(ModeloCarroDTO dto) {

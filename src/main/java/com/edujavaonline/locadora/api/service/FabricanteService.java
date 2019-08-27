@@ -44,11 +44,11 @@ public class FabricanteService {
 		return new FabricanteDTO(fabricanteRepository.save(entity));		
 	}
 	
-	public FabricanteDTO update(Long id, FabricanteDTO fabricanteDTO) {
+	public void update(Long id, FabricanteDTO fabricanteDTO) {
 		FabricanteDTO dto = findById(id);	
 		Fabricante entity = fromDTO(dto);
 		BeanUtils.copyProperties(fabricanteDTO, entity, "id");				
-		return new FabricanteDTO(fabricanteRepository.save(entity));		
+		fabricanteRepository.save(entity);		
 	}
 	
 	private Fabricante fromDTO(FabricanteDTO dto) {
